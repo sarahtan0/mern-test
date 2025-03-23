@@ -1,13 +1,19 @@
+import "dotenv/config";
+import mongoose from "mongoose";
 import express from "express";
 // used to add endpoints for apis
 const app = express();
-const port = 8000;
-//use 8000 if 5000 is full
 
 app.get("/", (req, res) => {
-    res.send("hello world!!!!!!!")
+  res.send("hello world!!!!!!!");
 });
 
-app.listen(port, () => {
+const port = process.env.PORT;
+
+mongoose.connect(process.env.MONGO_CONNECTION_STRING!).then(() => {
+  //what happens after connection occurs
+  console.log("Mongoose connected");
+  app.listen(port, () => {
     console.log(`server running on port: ${port}`);
+  });
 });
