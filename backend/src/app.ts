@@ -1,20 +1,10 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
-import NoteModel from "./models/note";
+import notesRoutes from "./routes/notes";
 
 const app = express();
 
-//add async for code to use await so other code can run while getting data
-app.get("/", async (req, res, next) => {
-    try{
-        //after the noteModel finds data, it will assign it to notes
-        const notes = await NoteModel.find().exec();
-        //turns notes into a json 
-        res.status(200).json(notes);
-    } catch (error){
-        next(error);
-    }
-});
+app.use("/api/notes", notesRoutes);
 
 //runs if user is at unknown route
 app.use((req, res, next) => {
