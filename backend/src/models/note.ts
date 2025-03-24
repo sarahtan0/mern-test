@@ -9,5 +9,5 @@ const noteSchema = new Schema({
 //new type for typescript
 type Note = InferSchemaType<typeof noteSchema>;
 
-//exports a model of the new type we made with name note 
+//exports a model of the new type we made with name note to mongodb
 export default model<Note>("Note", noteSchema);

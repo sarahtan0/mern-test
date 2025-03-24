@@ -7,4 +7,9 @@ const router = express.Router();
 //use router to keep the same express call as app.ts
 router.get("/", NotesController.getNotes);
 
+//noteId is a variable that will run getNote on the specific id
+router.get("/:noteId", NotesController.getNote);
+
+router.post("/", NotesController.createNote);
+
 export default router;

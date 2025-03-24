@@ -4,6 +4,10 @@ import notesRoutes from "./routes/notes";
 
 const app = express();
 
+//sets up express to accept json calls
+app.use(express.json());
+
+//good to use a different path for future dev if there are other endpoints
 app.use("/api/notes", notesRoutes);
 
 //runs if user is at unknown route
