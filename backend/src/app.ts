@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import notesRoutes from "./routes/notes";
+import userRoutes from "./routes/users";
 import morgan from "morgan";
 import createHttpError, {isHttpError} from "http-errors";
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 //good to use a different path for future dev if there are other endpoints
 app.use("/api/notes", notesRoutes);
+app.use("/api/users", userRoutes);
 
 //runs if user is at unknown route
 app.use((req, res, next) => {
