@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Note } from './models/note';
+import { Note as NoteModel} from './models/note';
+import Note from './components/Note';
 
 function App() {
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [notes, setNotes] = useState<NoteModel[]>([]);
 
   useEffect(() => {
     //make it its own func to make it async
@@ -28,7 +29,9 @@ function App() {
 
   return (
     <div className="App">
-      {JSON.stringify(notes)}
+      {notes.map(note => (
+        <Note note={note} key={note._id}/>
+      ))}
     </div>
   );
 }
