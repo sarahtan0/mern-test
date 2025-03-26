@@ -5,7 +5,7 @@ import { NoteInput } from "../network/notes_api";
 import * as NotesApi from "../network/notes_api";
 
 interface AddNoteDialogProps {
-    //doesn't change the value of any vars
+    //changes values but doesn't return, replace void with actual func in app.tsx
     onDismiss: () => void,
     onNoteSaved: (note: Note) => void,
 }
