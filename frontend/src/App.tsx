@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Note as NoteModel} from './models/note';
 import Note from './components/Note';
-import { Col, Container, Row, Button } from 'react-bootstrap';
+import { Col, Container, Row, Button, Spinner } from 'react-bootstrap';
 import styles from "./styles/NotesPage.module.css";
 import styleUtils from "./styles/utils.module.css";
 import * as NotesApi from "./network/notes_api";
@@ -10,6 +10,8 @@ import AddEditNoteDialog from './components/AddEditNoteDialog';
 
 function App() {
   const [notes, setNotes] = useState<NoteModel[]>([]);
+  const [notesLoading, setNotesLoading] = useState(true);
+  const [showNotesLoadingError, setShowNotesLoadingError] = useState(false);
 
   const [showAddNoteDialog, setShowAddNoteDialog] = useState(false);
   const [noteToEdit, setNoteToEdit] = useState<NoteModel|null>(null);
@@ -18,13 +20,17 @@ function App() {
     //make it its own func to make it async
     async function loadNotes(){
       try{
-        //configures a get request from db and turns into json file
-        const notes = await NotesApi.fetchNotes()
-        setNotes(notes);
+          setShowNotesLoadingError(false);
+          setNotesLoading(true);
+          //configures a get request from db and turns into json file
+          const notes = await NotesApi.fetchNotes()
+          setNotes(notes);
 
       } catch (error) {
-        console.error(error);
-        alert(error);
+          console.error(error);
+          setShowNotesLoadingError(true);
+      } finally {
+        setNotesLoading(false);
       }
     }
     loadNotes();
@@ -41,6 +47,20 @@ function App() {
     }
   }
 
+  const notesGrid =
+    <Row xs={1} md={2} lg={3} className="g-4">
+      {notes.map(note => (
+        <Col key={note._id}>
+          <Note 
+            onNoteClicked={(note) => setNoteToEdit(note)}
+            note={note} 
+            className={styles.note} 
+            onDeleteNoteClicked={deleteNote}
+          />
+        </Col>
+      ))}
+    </Row>
+
   return (
     <Container>
       <Button
@@ -48,18 +68,16 @@ function App() {
         className={`mb-4 mt-4 ${styleUtils.blockCenter}`}>
         + Add new note
       </Button>
-      <Row xs={1} md={2} lg={3} className="g-4">
-        {notes.map(note => (
-          <Col key={note._id}>
-            <Note 
-              onNoteClicked={(note) => setNoteToEdit(note)}
-              note={note} 
-              className={styles.note} 
-              onDeleteNoteClicked={deleteNote}
-            />
-          </Col>
-        ))}
-      </Row>
+      {notesLoading && <Spinner animation='border' variant='primary'/>}
+      {showNotesLoadingError && <p>Something went wrong. Please refresh the page</p>}
+      {!notesLoading && !showNotesLoadingError &&
+        <>
+          { notes.length > 0
+            ? notesGrid
+            : <p>No notes</p>
+          }
+        </>
+      }
       {showAddNoteDialog &&
         <AddEditNoteDialog
           onDismiss={() => setShowAddNoteDialog(false)}
