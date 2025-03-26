@@ -7,10 +7,11 @@ import styleUtils from "../styles/utils.module.css";
 interface NoteProps {
     note: NoteModel,
     onDeleteNoteClicked: (note: NoteModel) => void,
+    onNoteClicked: (note: NoteModel) => void,
     className?: string,
 }
 
-const Note = ({ note, className, onDeleteNoteClicked } : NoteProps) => {
+const Note = ({ note, onNoteClicked, className, onDeleteNoteClicked } : NoteProps) => {
     const {
         title,
         text,
@@ -26,7 +27,8 @@ const Note = ({ note, className, onDeleteNoteClicked } : NoteProps) => {
     }
 
     return (
-        <Card className = {`${styles.noteCard} ${className}`}>
+        <Card className = {`${styles.noteCard} ${className}`}
+            onClick={() => onNoteClicked(note)}>
             <Card.Body className={styles.cardBody}>
                 <Card.Title className={styleUtils.flexCenter}>
                     {title}
