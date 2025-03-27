@@ -4,6 +4,9 @@ import notesRoutes from "./routes/notes";
 import userRoutes from "./routes/users";
 import morgan from "morgan";
 import createHttpError, {isHttpError} from "http-errors";
+import session from "express-session";
+import env from './util/validateEnv';
+import MongoStore from "connect-mongo";
 
 const app = express();
 
@@ -12,6 +15,20 @@ app.use(morgan("dev"));
 
 //sets up express to accept json calls
 app.use(express.json());
+
+app.use(session({
+    secret: env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        //1 hr in ms
+        maxAge: 60 * 60 * 1000
+    },
+    rolling: true,
+    store: MongoStore.create({
+        mongoUrl: env.MONGO_CONNECTION_STRING
+    })
+}));
 
 //good to use a different path for future dev if there are other endpoints
 app.use("/api/notes", notesRoutes);
