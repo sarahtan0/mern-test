@@ -1,4 +1,5 @@
 import { Note } from "../models/note";
+import { User } from "../models/user";
 
 //move the api calls to a diff module
 async function fetchData(input: RequestInfo, init?: RequestInit) {
@@ -10,6 +11,49 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
         const errorMessage = errorBody.error;
         throw Error(errorMessage);
     }
+}
+
+export async function getLoggedInUser(): Promise<User> {
+    const response = await fetchData("/api/users", { method: "GET" });
+    return response.json();
+}
+
+export interface SignUpCredentials {
+    username: string,
+    email: string,
+    password: string,
+}
+
+export async function signUp(credentials: SignUpCredentials): Promise<User> {
+    const response = await fetchData("/api/user/signup", {
+        method: "POST",
+        headers: {
+            "Content-Type": "applications/json",
+        },
+        body: JSON.stringify(credentials),
+    });
+    return response.json();
+}
+
+export interface LogInCredentials {
+    username: string,
+    password: string,
+}
+
+export async function login(credentials: LogInCredentials): Promise<User> {
+    const response = await fetchData("/api/user/login",{
+        method: "POST",
+        headers: {
+            "Content-Type": "applications/json",
+        },
+        body: JSON.stringify(credentials),
+    });
+    return response.json();
+}
+
+//doesn't require a body because backend alr knows the curr user
+export async function logout() {
+    await fetchData("/api/user/", {method: "POST"});
 }
 
 export async function fetchNotes(): Promise<Note[]> {

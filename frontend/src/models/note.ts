@@ -1,3 +1,4 @@
+//this is an object type used in components
 export interface Note {
     _id: string,
     title: string,
