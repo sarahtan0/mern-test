@@ -16,6 +16,7 @@ app.use(morgan("dev"));
 //sets up express to accept json calls
 app.use(express.json());
 
+//asks app to use session tracking for every request
 app.use(session({
     secret: env.SESSION_SECRET,
     resave: false,
