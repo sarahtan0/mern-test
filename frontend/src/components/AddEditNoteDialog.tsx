@@ -3,6 +3,7 @@ import { Note } from "../models/note";
 import { useForm } from "react-hook-form";
 import { NoteInput } from "../network/notes_api";
 import * as NotesApi from "../network/notes_api";
+import TextInputField from "./forms/TextInputField";
 
 interface AddEditNoteDialogProps {
     //changes values but doesn't return, replace void with actual func in app.tsx
@@ -18,7 +19,6 @@ const AddEditNoteDialog = ({onDismiss, onNoteSaved, noteToEdit} : AddEditNoteDia
             title: noteToEdit?.title || "",
             text: noteToEdit?.text || "",
         }
-
     });
 
     async function onSubmit(input: NoteInput) {
@@ -45,27 +45,24 @@ const AddEditNoteDialog = ({onDismiss, onNoteSaved, noteToEdit} : AddEditNoteDia
             </Modal.Header>
             <Modal.Body>
                 <Form id="addEditNoteForm" onSubmit={handleSubmit(onSubmit)}>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control 
-                            type="text"
-                            placeholder="Enter title"
-                            isInvalid={!!errors.title}
-                            {...register("title", {required: "Required"})}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.title?.message}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Text</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            rows={5}
-                            placeholder="Enter text"
-                            {...register("text")}
-                        />
-                    </Form.Group>
+                    <TextInputField
+                        name="title"
+                        label="Title"
+                        type="text"
+                        placeholder="Title"
+                        register={register}
+                        registerOptions={{ required: "Required"}}
+                    />
+                    <TextInputField
+                        name="text"
+                        label="Text"
+                        type="text"
+                        as="textarea"
+                        rows={5}
+                        placeholder="Enter text"
+                        register={register}
+                        registerOptions={{}}
+                    />
                 </Form>
             </Modal.Body>
 
