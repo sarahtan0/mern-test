@@ -8,12 +8,14 @@ import styleUtils from "./styles/utils.module.css";
 import * as NotesApi from "./network/notes_api";
 import AddEditNoteDialog from './components/AddEditNoteDialog';
 import SignUpModal from './components/SignUpModal';
+import LogInModal from './components/LogInModal';
 
 function App() {
   const [notes, setNotes] = useState<NoteModel[]>([]);
   const [notesLoading, setNotesLoading] = useState(true);
   const [showNotesLoadingError, setShowNotesLoadingError] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
   const [showAddNoteDialog, setShowAddNoteDialog] = useState(false);
   const [noteToEdit, setNoteToEdit] = useState<NoteModel|null>(null);
@@ -66,16 +68,31 @@ function App() {
   return (
     <Container>
 
+    <div className={styleUtils.buttonGap}>
       <Button
         onClick={() => setShowSignUp(true)}
-        className={`mb-4 mt-4 ${styleUtils.blockCenter}`}>
+        className={`mb-4 mt-4`}>
         Sign Up
       </Button>
+
+      <Button
+        className={`mb-4 mt-4`}
+        onClick={() => setShowLogin(true)}>
+        Login
+      </Button>
+    </div>
 
       {showSignUp && 
         <SignUpModal
           onDismiss={() => setShowSignUp(false)}
-          onSignUpSuccessful={() => {}}
+          onSignUpSuccessful={() => {setShowSignUp(false)}}
+        />
+      }
+
+      {showLogin &&
+        <LogInModal
+          onDismiss={() => {setShowLogin(false)}}
+          onLoginSuccessful={() => {setShowLogin(false)}}
         />
       }
 

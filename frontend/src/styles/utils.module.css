@@ -13,3 +13,10 @@
 .width100{
     width: 100%;
 }
+
+.buttonGap{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1vw;
+}
