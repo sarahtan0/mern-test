@@ -17,12 +17,6 @@ const SignUpModal = ({onDismiss, onSignUpSuccessful}: SignUpModalProps) => {
 
     async function onSubmit(credentials: SignUpCredentials){
         try{
-            // const credentials: SignUpCredentials = {
-            //     username: "user3",
-            //     password: "password",
-            //     email: "test@email.com",
-            //   };
-            // console.log(credentials);
             const newUser = await NotesApi.signUp(credentials);
             //will take the new user and save to db when successful (?)
             onSignUpSuccessful(newUser);

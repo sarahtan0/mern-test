@@ -53,7 +53,7 @@ export async function login(credentials: LogInCredentials): Promise<User> {
 
 //doesn't require a body because backend alr knows the curr user
 export async function logout() {
-    await fetchData("/api/user/", {method: "POST"});
+    await fetchData("/api/users/logout", {method: "POST"});
 }
 
 export async function fetchNotes(): Promise<Note[]> {
