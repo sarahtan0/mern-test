@@ -7,11 +7,13 @@ import styles from "./styles/NotesPage.module.css";
 import styleUtils from "./styles/utils.module.css";
 import * as NotesApi from "./network/notes_api";
 import AddEditNoteDialog from './components/AddEditNoteDialog';
+import SignUpModal from './components/SignUpModal';
 
 function App() {
   const [notes, setNotes] = useState<NoteModel[]>([]);
   const [notesLoading, setNotesLoading] = useState(true);
   const [showNotesLoadingError, setShowNotesLoadingError] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false);
 
   const [showAddNoteDialog, setShowAddNoteDialog] = useState(false);
   const [noteToEdit, setNoteToEdit] = useState<NoteModel|null>(null);
@@ -63,6 +65,20 @@ function App() {
 
   return (
     <Container>
+
+      <Button
+        onClick={() => setShowSignUp(true)}
+        className={`mb-4 mt-4 ${styleUtils.blockCenter}`}>
+        Sign Up
+      </Button>
+
+      {showSignUp && 
+        <SignUpModal
+          onDismiss={() => setShowSignUp(false)}
+          onSignUpSuccessful={() => {}}
+        />
+      }
+
       <Button
         onClick={() => setShowAddNoteDialog(true)}
         className={`mb-4 mt-4 ${styleUtils.blockCenter}`}>

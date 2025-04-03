@@ -5,6 +5,7 @@ import { NoteInput } from "../network/notes_api";
 import * as NotesApi from "../network/notes_api";
 import TextInputField from "./forms/TextInputField";
 
+//these are diff functions you can assign when usig in app.tsx
 interface AddEditNoteDialogProps {
     //changes values but doesn't return, replace void with actual func in app.tsx
     onDismiss: () => void,
@@ -52,6 +53,7 @@ const AddEditNoteDialog = ({onDismiss, onNoteSaved, noteToEdit} : AddEditNoteDia
                         placeholder="Title"
                         register={register}
                         registerOptions={{ required: "Required"}}
+                        error={errors.title}
                     />
                     <TextInputField
                         name="text"
@@ -61,7 +63,7 @@ const AddEditNoteDialog = ({onDismiss, onNoteSaved, noteToEdit} : AddEditNoteDia
                         rows={5}
                         placeholder="Enter text"
                         register={register}
-                        registerOptions={{}}
+                        error={errors.text}
                     />
                 </Form>
             </Modal.Body>

@@ -31,6 +31,16 @@ export const signUp: RequestHandler<unknown,unknown,SignUpBody,unknown> = async(
 
     try {
         if(!username || !email || !passwordRaw){
+
+            // const missingParams = [];
+    
+            // if (!username) missingParams.push("username");
+            // if (!email) missingParams.push("email");
+            // if (!passwordRaw) missingParams.push("password");
+
+            // console.log(`Missing parameters: ${missingParams.join(", ")}`);
+
+
             throw createHttpError(400, "Parameters missing");
         }
 
