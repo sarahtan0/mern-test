@@ -23,7 +23,7 @@ const NavBar = ({loggedInUser, onSignUpClicked, onLoginClicked, onLogoutClicked}
                         {loggedInUser
                         ? <NavBarLoggedInView
                             user = {loggedInUser}
-                            onLogOutSuccessful={() => onLogoutClicked}/>
+                            onLogOutSuccessful={() => {onLogoutClicked()}}/>
                         : <NavBarLoggedOutView
                             onLoginSuccessful={() => {onLoginClicked()}}
                             onSignUpSuccessful={() => {onSignUpClicked()}}/>

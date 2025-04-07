@@ -47,7 +47,10 @@ function App() {
         {showSignUp && 
           <SignUpModal
               onDismiss={() => setShowSignUp(false)}
-              onSignUpSuccessful={() => {setShowSignUp(false)}}
+              onSignUpSuccessful={(user) => {
+                setShowSignUp(false);
+                setLoggedInUser(user);
+              }}
           />
         }
 
