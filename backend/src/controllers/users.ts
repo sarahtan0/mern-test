@@ -4,14 +4,8 @@ import userModel from "../models/user";
 import bcrypt from "bcrypt";
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
-    const authenticatedUser = req.session.userId;
-
     try{
-        if (!authenticatedUser) {
-            throw createHttpError("User not authenticated");
-        }
-
-        const user = await userModel.findById(authenticatedUser).select("+email").exec();
+        const user = await userModel.findById(req.session.userId).select("+email").exec();
         res.status(200).json(user);
     } catch (error) {
         next(error);
