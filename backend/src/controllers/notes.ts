@@ -5,9 +5,11 @@ import mongoose from "mongoose";
 
 //retrieves all notes from mongodb and converts into json
 export const getNotes: RequestHandler = async (req, res, next) => {
+    const authenticatedUserId = req.session.userId;
+
     try{
         //after the noteModel finds data, it will assign it to notes
-        const notes = await NoteModel.find().exec();
+        const notes = await NoteModel.find({userId: authenticatedUserId}).exec();
         res.status(200).json(notes);
     } catch (error){
         next(error);
@@ -37,12 +39,14 @@ interface CreateNoteBody {
 export const createNote: RequestHandler<unknown, unknown, CreateNoteBody, unknown> = async (req, res, next) => {
     const title = req.body.title;
     const text = req.body.text;
+    const authenticatedUserId = req.session.userId;
 
     try{
         if(!title){
             throw createHttpError(400, "Note must have a title")
         }
         const newNote = await NoteModel.create({
+            userId: authenticatedUserId,
             title: title,
             text: text
         });
