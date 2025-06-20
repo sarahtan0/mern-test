@@ -14,6 +14,7 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState<User|null>(null);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [hasTriedLoadingUser, setHasTriedLoadingUser] = useState(false);
 
   useEffect(() => {
 
@@ -22,8 +23,14 @@ function App() {
         const user = await NotesApi.getLoggedInUser();
         setLoggedInUser(user);
       } catch(error) {
+        if (!hasTriedLoadingUser) {
+          // expected: user not logged in, do nothing
+          return;
+        }
         console.error(error);
         alert(error);
+      } finally {
+        setHasTriedLoadingUser(true);
       }
     }
 
