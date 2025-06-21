@@ -37,7 +37,7 @@ app.use("/api/notes", requiresAuth, notesRoutes);
 app.use("/api/users", userRoutes);
 
 //runs if user is at unknown route
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
     next(createHttpError(404, "Endpoint not found"));
 });
 

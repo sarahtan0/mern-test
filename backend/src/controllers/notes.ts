@@ -1,10 +1,10 @@
-import { RequestHandler } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import NoteModel from "../models/note";
 import createHttpError from "http-errors";
 import mongoose from "mongoose";
 
 //retrieves all notes from mongodb and converts into json
-export const getNotes: RequestHandler = async (req, res, next) => {
+export const getNotes: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     const authenticatedUserId = req.session.userId;
 
     try{
@@ -16,7 +16,7 @@ export const getNotes: RequestHandler = async (req, res, next) => {
     }
 }
 
-export const getNote: RequestHandler = async (req, res, next) => {
+export const getNote: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     const noteId = req.params.noteId;
     
     try{
@@ -36,7 +36,7 @@ interface CreateNoteBody {
     text?: string,
 }
 
-export const createNote: RequestHandler<unknown, unknown, CreateNoteBody, unknown> = async (req, res, next) => {
+export const createNote: RequestHandler<unknown, unknown, CreateNoteBody, unknown> = async (req: Request<unknown, unknown, CreateNoteBody, unknown>, res: Response, next: NextFunction) => {
     const title = req.body.title;
     const text = req.body.text;
     const authenticatedUserId = req.session.userId;
@@ -71,7 +71,9 @@ interface UpdateNoteBody {
 //unknown = res body (unknown bc we don't care)
 //updateNoteBody = request body type
 //unknown = query (we also don't care)
-export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBody, unknown> = async (req, res, next) => {
+export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBody, unknown> = async (
+        req: Request<UpdateNoteParams, unknown, UpdateNoteBody, unknown>, res: Response, next: NextFunction
+    ) => {
     const noteId = req.params.noteId;
     const newTitle = req.body.title;
     const newText = req.body.text;
@@ -96,7 +98,7 @@ export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBod
     }
 };
 
-export const deleteNote: RequestHandler = async (req, res, next) => {
+export const deleteNote: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     const noteId = req.params.noteId;
     try{
         if(!mongoose.isValidObjectId(noteId)) throw createHttpError(400, "Invalid note id");

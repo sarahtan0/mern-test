@@ -1,9 +1,9 @@
-import { RequestHandler } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import createHttpError from "http-errors";
 import userModel from "../models/user";
 import bcrypt from "bcrypt";
 
-export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
+export const getAuthenticatedUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try{
         const user = await userModel.findById(req.session.userId).select("+email").exec();
         res.status(200).json(user);
@@ -18,7 +18,8 @@ interface SignUpBody {
     password?: string,
 }
 
-export const signUp: RequestHandler<unknown,unknown,SignUpBody,unknown> = async(req, res, next) => {
+export const signUp: RequestHandler<unknown,unknown,SignUpBody,unknown> = 
+    async(req: Request<unknown,unknown,SignUpBody,unknown>, res: Response, next: NextFunction) => {
     const username = req.body.username;
     const email = req.body.email;
     const passwordRaw = req.body.password;
@@ -63,7 +64,7 @@ interface loginBody{
     password?: string,
 }
 
-export const login: RequestHandler<unknown, unknown, loginBody, unknown> = async(req, res, next) => {
+export const login: RequestHandler<unknown, unknown, loginBody, unknown> = async(req: Request<unknown, unknown, loginBody, unknown>, res: Response, next: NextFunction) => {
     const username = req.body.username;
     const password = req.body.password;
 
@@ -85,7 +86,7 @@ export const login: RequestHandler<unknown, unknown, loginBody, unknown> = async
     }
 };
 
-export const logout: RequestHandler = (req, res, next) =>  {
+export const logout: RequestHandler = (req: Request, res: Response, next: NextFunction) =>  {
     req.session.destroy(error => {
         if(error){
             next(error);
