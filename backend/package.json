@@ -20,6 +20,7 @@
     "@types/express-session": "^1.18.2",
     "@types/http-errors": "^2.0.4",
     "@types/morgan": "^1.9.9",
+    "@types/node": "^24.0.3",
     "@typescript-eslint/eslint-plugin": "^8.27.0",
     "@typescript-eslint/parser": "^8.27.0",
     "eslint": "^9.23.0",
