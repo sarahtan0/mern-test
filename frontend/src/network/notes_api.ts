@@ -3,6 +3,8 @@ import { User } from "../models/user";
 
 //move the api calls to a diff module
 async function fetchData(input: RequestInfo, init?: RequestInit) {
+    console.log(input)
+    console.log(init)
     const response = await fetch(input, init);
     if(response.ok) {
         return response;
