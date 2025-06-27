@@ -1,9 +1,14 @@
 import { Note } from "../models/note";
 import { User } from "../models/user";
 
+//credientials: include is necessary when using CORS or cross-origin requests
+
 async function fetchData(input: RequestInfo, init?: RequestInit) {
-    const response = await fetch(input, init);
+    const url: RequestInfo = `${process.env.REACT_APP_BACKEND_URL}${input}`
+    console.log(`fetching with ${process.env.REACT_APP_BACKEND_URL}${input}`);
+    const response = await fetch(url, init);
     if(response.ok) {
+        console.log("this worked")
         return response;
     } else {
         const errorBody = await response.json();
@@ -13,7 +18,10 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
 }
 
 export async function getLoggedInUser(): Promise<User> {
-    const response = await fetchData("/api/users", { method: "GET" });
+    const response = await fetchData("/api/users", { 
+        method: "GET",
+        credentials: "include"
+    });
     return response.json();
 }
 
@@ -52,11 +60,17 @@ export async function login(credentials: LogInCredentials): Promise<User> {
 
 //doesn't require a body because backend alr knows the curr user
 export async function logout() {
-    await fetchData("/api/users/logout", {method: "POST"});
+    await fetchData("/api/users/logout", {
+        method: "POST",
+        credentials: "include"
+    });
 }
 
 export async function fetchNotes(): Promise<Note[]> {
-    const response = await fetchData("/api/notes", { method: "GET" });
+    const response = await fetchData("/api/notes", {
+        method: "GET",
+        credentials: "include",    
+    });
     return response.json();
 }
 

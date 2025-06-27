@@ -8,8 +8,14 @@ import session from "express-session";
 import env from './util/validateEnv';
 import MongoStore from "connect-mongo";
 import { requiresAuth } from "./middleware/auth";
+import cors from "cors";
 
 const app = express();
+
+app.use(cors({
+    origin: ["http://localhost:3000", "https://mern-test-henna.vercel.app"],
+    credentials: true
+}))
 
 //prints log of all endpoints accessed
 app.use(morgan("dev"));
